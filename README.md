@@ -196,6 +196,10 @@ Birkaç dakika içinde sit*en yayında olur:
 
 ## 8. Notlar
 
+- Arka plan fotoğrafları (`public/images/backgrounds/`) **kamu malı (public domain)**
+  2. Dünya Savaşı arşiv görselleridir; Wikimedia Commons'tan alınmıştır
+  (`ww2-tanks.jpg`, `ww2-sky.jpg`, `ww2-infantry.jpg`). Telif/atıf zorunluluğu
+  yoktur; istersen kendi görsellerinle değiştirebilirsin.
 - Site tamamen **statiktir**: backend, veritabanı veya sunucu tarafı kod yoktur.
 - Arama ve kategori filtreleme **istemci tarafında** (tarayıcıda) çalışır.
 - Görseller şu an placeholder SVG’lerdir; `public/images/` altına kendi

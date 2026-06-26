@@ -22,6 +22,8 @@ const stats = [
 
 <section class="hero">
   <div class="hero-bg" aria-hidden="true">
+    <img class="hero-photo" src={`${base}/images/backgrounds/ww2-tanks.jpg`} alt="" loading="eager" decoding="async" />
+    <div class="hero-veil"></div>
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
     <div class="hero-scan"></div>
@@ -79,6 +81,27 @@ const stats = [
     position: absolute;
     inset: 0;
     z-index: -1;
+    overflow: hidden;
+  }
+  /* Gerçek WW2 fotoğrafı (telifsiz) — koyulaştırılmış arka plan katmanı */
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: grayscale(100%) contrast(1.05) brightness(0.55) sepia(0.15);
+    opacity: 0.38;
+    transform: scale(1.05);
+  }
+  /* Fotoğrafın üstüne lacivert→siyah perde: metin okunaklı kalsın */
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,15,26,0.55) 0%, rgba(10,15,26,0.82) 55%, var(--c-navy-900) 100%),
+      radial-gradient(ellipse 70% 60% at 50% 35%, rgba(10,15,26,0.1), rgba(10,15,26,0.7));
   }
   /* Harita/ızgara hissi */
   .hero-grid {
