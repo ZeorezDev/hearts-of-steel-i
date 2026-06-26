@@ -1,0 +1,17 @@
+{
+  "name": "hearts-of-steel-i",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Hearts Of Steel I - 2. Dünya Savaşı temalı modlu Minecraft Towny sunucusu resmi web sitesi",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.2.1",
+    "astro": "^4.16.18"
+  }
+}

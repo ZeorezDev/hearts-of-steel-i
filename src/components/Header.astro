@@ -1,0 +1,256 @@
+---
+/**
+ * Site üst menüsü (Header).
+ * Masaüstünde yatay menü, mobilde hamburger menü gösterir.
+ * Aktif sayfa altın renkle vurgulanır.
+ */
+import { siteConfig } from '../data/siteConfig';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (p: string) => `${base}${p}` || '/';
+
+// Geçerli yolu base'siz olarak normalize et (aktif link tespiti için)
+const current = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
+
+const nav = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Sunucu', href: '/server' },
+  { label: 'Nasıl Katılırım', href: '/join' },
+  { label: 'Kurallar', href: '/rules' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Kadro', href: '/staff' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? current === '/' : current.startsWith(href);
+---
+
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href={path('/')} class="brand" aria-label="Hearts Of Steel I ana sayfa">
+      <span class="brand-mark">HoS<span class="brand-i">I</span></span>
+      <span class="brand-text">
+        <strong>Hearts Of Steel I</strong>
+        <small>WW2 Towny Sunucusu</small>
+      </span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Ana menü">
+      {
+        nav.map((item) => (
+          <a
+            href={path(item.href)}
+            class:list={['nav-link', { active: isActive(item.href) }]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href={siteConfig.discordUrl} class="btn btn--discord nav-discord" target="_blank" rel="noopener">
+        Discord
+      </a>
+    </nav>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobil menü -->
+  <nav class="nav-mobile" id="mobileNav" aria-label="Mobil menü">
+    {
+      nav.map((item) => (
+        <a
+          href={path(item.href)}
+          class:list={['nav-link', { active: isActive(item.href) }]}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+    <a href={siteConfig.discordUrl} class="btn btn--discord" target="_blank" rel="noopener">
+      Discord'a Katıl
+    </a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--c-border);
+    background: rgba(10, 15, 26, 0.7);
+    backdrop-filter: blur(12px);
+    transition: background var(--t-fast), border-color var(--t-fast);
+  }
+  .site-header.scrolled {
+    background: rgba(10, 15, 26, 0.92);
+    border-color: var(--c-line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  /* Marka / logo */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    color: #1a1407;
+    background: linear-gradient(180deg, var(--c-gold-soft), var(--c-amber));
+    padding: 0.3rem 0.55rem;
+    border-radius: var(--radius);
+    line-height: 1;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+  }
+  .brand-i {
+    margin-left: 2px;
+    opacity: 0.7;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand-text strong {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    letter-spacing: 0.5px;
+  }
+  .brand-text small {
+    font-size: 0.66rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+  }
+
+  /* Masaüstü menü */
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-text-dim);
+    position: relative;
+    padding-block: 0.3rem;
+    transition: color var(--t-fast);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: var(--c-gold);
+    transition: width var(--t);
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--c-text);
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+  .nav-discord {
+    padding: 0.55rem 1.1rem;
+    font-size: 0.82rem;
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+  .hamburger span {
+    width: 26px;
+    height: 2px;
+    background: var(--c-text);
+    transition: transform var(--t), opacity var(--t-fast);
+  }
+  .hamburger[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobil menü */
+  .nav-mobile {
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem 1.25rem 1.5rem;
+    border-top: 1px solid var(--c-border);
+    background: rgba(10, 15, 26, 0.97);
+  }
+  .nav-mobile.open {
+    display: flex;
+  }
+  .nav-mobile .nav-link {
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .nav-mobile .btn {
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 880px) {
+    .nav-desktop {
+      display: none;
+    }
+    .hamburger {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('hamburgerBtn');
+  const menu = document.getElementById('mobileNav');
+  const header = document.getElementById('siteHeader');
+
+  btn?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(!!open));
+    btn.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
+  });
+
+  // Mobil menüde bir linke tıklanınca menüyü kapat
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn?.setAttribute('aria-expanded', 'false');
+    })
+  );
+
+  // Sayfa kaydırıldığında header'a gölge ekle
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

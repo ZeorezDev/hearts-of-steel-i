@@ -1,0 +1,131 @@
+---
+/**
+ * Kadro / Yetkililer `/staff`
+ * Yetkili ekibi `src/data/staff.ts` dosyasından gelir.
+ * Blog yazarı olan yetkililer ayrı bir bölümde de vurgulanır.
+ */
+import Layout from '../layouts/Layout.astro';
+import StaffCard from '../components/StaffCard.astro';
+import DiscordCTA from '../components/DiscordCTA.astro';
+import { staff } from '../data/staff';
+
+const blogAuthors = staff.filter((m) => m.isBlogAuthor);
+---
+
+<Layout
+  title="Kadro"
+  description="Hearts Of Steel I yetkili ekibi: kurucular, yöneticiler, moderatörler ve teknik ekip."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Komuta Kademesi</span>
+      <h1 class="reveal">Yetkili Kadrosu</h1>
+      <p class="reveal text-dim">
+        Sunucunun adil, düzenli ve sürükleyici işlemesini sağlayan ekip.
+        Sorularını ve geri bildirimlerini Discord üzerinden iletebilirsin.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="staff-grid">
+        {staff.map((member) => <StaffCard member={member} />)}
+      </div>
+    </div>
+  </section>
+
+  {
+    blogAuthors.length > 0 && (
+      <section class="section authors-section">
+        <div class="container">
+          <div class="authors-note reveal">
+            <h2>Blog Yazarları</h2>
+            <p class="text-dim">
+              Aşağıdaki yetkililer blog yazısı yayınlama yetkisine sahiptir ve
+              GitHub deposuna katkıda bulunabilir:
+            </p>
+            <div class="authors-list">
+              {blogAuthors.map((a) => (
+                <span class="author-pill">{a.name} · {a.role}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <DiscordCTA
+    title="Ekibe Katılmak İster misin?"
+    text="Yetkili alımları dönemsel olarak Discord üzerinden duyurulur. Topluluğa katıl ve haberdar ol."
+  />
+</Layout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 56ch;
+    margin-inline: auto;
+  }
+
+  .staff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .authors-section {
+    padding-top: 0;
+  }
+  .authors-note {
+    padding: 1.75rem;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    text-align: center;
+  }
+  .authors-note h2 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .authors-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .author-pill {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--c-gold);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(212, 175, 55, 0.07);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+  }
+
+  @media (max-width: 900px) {
+    .staff-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .staff-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

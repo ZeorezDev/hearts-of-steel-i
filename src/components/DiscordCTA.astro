@@ -1,0 +1,95 @@
+---
+/**
+ * Discord çağrı bandı (Call To Action).
+ * Sayfaların sonunda kullanıcıyı Discord'a yönlendiren vurgulu bölüm.
+ */
+import { siteConfig } from '../data/siteConfig';
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Cepheye Katılmaya Hazır mısın?',
+  text = 'Discord sunucumuza katıl, topluluğa dahil ol ve 1936 Avrupa’sında yerini al.',
+} = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="cta reveal">
+      <div class="cta-bg" aria-hidden="true"></div>
+      <div class="cta-content">
+        <h2>{title}</h2>
+        <p class="text-dim">{text}</p>
+        <div class="cta-actions">
+          <a href={siteConfig.discordUrl} class="btn btn--discord" target="_blank" rel="noopener">
+            <Icon name="arrow-right" size={18} /> Discord'a Katıl
+          </a>
+          <div class="cta-ip">
+            <span>Sunucu IP</span>
+            <code>{siteConfig.serverIp}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(2.5rem, 5vw, 4rem);
+    text-align: center;
+  }
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.16), transparent 55%),
+      radial-gradient(circle at 80% 120%, rgba(88, 101, 242, 0.14), transparent 50%),
+      linear-gradient(180deg, var(--c-navy-800), var(--c-charcoal));
+    z-index: -1;
+  }
+  .cta-content {
+    max-width: 56ch;
+    margin-inline: auto;
+  }
+  .cta h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    text-transform: uppercase;
+  }
+  .cta p {
+    margin-top: 0.85rem;
+    margin-bottom: 1.75rem;
+  }
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .cta-ip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .cta-ip span {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+  }
+  .cta-ip code {
+    font-size: 0.92rem;
+    color: var(--c-gold);
+    border: 1px dashed var(--c-line);
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius);
+  }
+</style>

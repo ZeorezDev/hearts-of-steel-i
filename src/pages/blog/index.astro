@@ -1,0 +1,248 @@
+---
+/**
+ * Blog `/blog`
+ * Yayınlanmış tüm blog yazılarını listeler. Kategori filtreleme ve arama
+ * istemci tarafında (client-side) çalışır — statik site için idealdir.
+ */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import Icon from '../../components/Icon.astro';
+import { blogCategories } from '../../data/siteConfig';
+
+// Sadece published === true olanları al, tarihe göre (yeni → eski) sırala
+const posts = (await getCollection('blog', ({ data }) => data.published === true)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const filters = ['Tümü', ...blogCategories];
+---
+
+<Layout
+  title="Blog"
+  description="Hearts Of Steel I duyuruları, güncellemeleri, rehberleri ve savaş raporları. Cepheden en son haberler."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Cephe Günlüğü</span>
+      <h1 class="reveal">Blog</h1>
+      <p class="reveal text-dim">
+        Duyurular, güncellemeler, rehberler ve savaş raporları — sunucudan en
+        güncel haberler burada.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <!-- Arama + filtreler -->
+      <div class="blog-controls reveal">
+        <div class="search-box">
+          <Icon name="search" size={18} />
+          <input
+            type="search"
+            id="blogSearch"
+            placeholder="Yazılarda ara..."
+            aria-label="Blog yazılarında ara"
+          />
+        </div>
+        <div class="filter-chips" id="filterChips" role="tablist" aria-label="Kategori filtreleri">
+          {
+            filters.map((f, i) => (
+              <button
+                class:list={['chip', { active: i === 0 }]}
+                data-category={f}
+                type="button"
+              >
+                {f}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Yazı listesi -->
+      {
+        posts.length === 0 ? (
+          <p class="empty">Henüz yayınlanmış bir yazı yok. Yakında burada olacak.</p>
+        ) : (
+          <div class="blog-grid" id="blogGrid">
+            {posts.map((p) => (
+              <div
+                class="blog-item"
+                data-category={p.data.category}
+                data-title={p.data.title.toLowerCase()}
+                data-desc={p.data.description.toLowerCase()}
+              >
+                <BlogCard
+                  slug={p.slug}
+                  title={p.data.title}
+                  description={p.data.description}
+                  date={p.data.date}
+                  author={p.data.author}
+                  category={p.data.category}
+                  cover={p.data.cover}
+                />
+              </div>
+            ))}
+          </div>
+        )
+      }
+      <p class="no-results" id="noResults" hidden>Aramanla eşleşen yazı bulunamadı.</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 54ch;
+    margin-inline: auto;
+  }
+
+  .blog-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    background: var(--surface-1);
+    color: var(--c-text-faint);
+    min-width: 240px;
+    flex: 1;
+    max-width: 340px;
+    transition: border-color var(--t-fast);
+  }
+  .search-box:focus-within {
+    border-color: var(--c-gold);
+    color: var(--c-gold);
+  }
+  .search-box input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--c-text);
+    font: inherit;
+    font-size: 0.92rem;
+  }
+
+  .filter-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-text-dim);
+    background: var(--surface-1);
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    padding: 0.45rem 0.95rem;
+    cursor: pointer;
+    transition: all var(--t-fast);
+  }
+  .chip:hover {
+    border-color: var(--c-line);
+    color: var(--c-text);
+  }
+  .chip.active {
+    color: #1a1407;
+    background: linear-gradient(180deg, var(--c-gold-soft), var(--c-amber));
+    border-color: var(--c-gold);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .blog-item.hidden {
+    display: none;
+  }
+  .empty,
+  .no-results {
+    text-align: center;
+    color: var(--c-text-dim);
+    padding-block: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+    .blog-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .search-box {
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  const search = document.getElementById('blogSearch') as HTMLInputElement | null;
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('#filterChips .chip'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.blog-item'));
+  const noResults = document.getElementById('noResults');
+
+  let activeCategory = 'Tümü';
+
+  function apply() {
+    const q = (search?.value || '').trim().toLowerCase();
+    let visible = 0;
+
+    items.forEach((item) => {
+      const cat = item.dataset.category || '';
+      const title = item.dataset.title || '';
+      const desc = item.dataset.desc || '';
+      const matchCat = activeCategory === 'Tümü' || cat === activeCategory;
+      const matchSearch = !q || title.includes(q) || desc.includes(q);
+      const show = matchCat && matchSearch;
+      item.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    if (noResults) noResults.hidden = visible !== 0;
+  }
+
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      chips.forEach((c) => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeCategory = chip.dataset.category || 'Tümü';
+      apply();
+    })
+  );
+
+  search?.addEventListener('input', apply);
+</script>

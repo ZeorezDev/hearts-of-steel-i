@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8c766"/>
+      <stop offset="1" stop-color="#c9952b"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="14" width="52" height="52" rx="8" fill="url(#g)"/>
+  <text x="32" y="50" font-family="Oswald, Arial, sans-serif" font-size="22" font-weight="700" fill="#1a1407" text-anchor="middle">HoS</text>
+  <text x="74" y="38" font-family="Oswald, Arial, sans-serif" font-size="24" font-weight="700" fill="#e7e3d8">HEARTS OF STEEL</text>
+  <text x="74" y="62" font-family="Oswald, Arial, sans-serif" font-size="14" letter-spacing="3" fill="#a8a392">WW2 TOWNY · 1936</text>
+</svg>

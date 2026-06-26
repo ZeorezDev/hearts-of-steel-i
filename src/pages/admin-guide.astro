@@ -1,0 +1,297 @@
+---
+/**
+ * Admin Rehberi `/admin-guide`
+ * Bu sayfa GİZLİ DEĞİLDİR ve gerçek bir güvenlik katmanı sağlamaz.
+ * Sadece blog yazarı yetkililere yol gösteren bir rehberdir.
+ */
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+
+// Frontmatter örneği — JS string olarak tutulur ki Astro parse etmesin.
+const frontmatterExample = `---
+title: "Yeni Güncelleme Yayında"
+description: "Sunucuya eklenen yeni sistemler ve değişiklikler."
+date: "2026-06-26"
+author: "Admin"
+category: "Duyurular"
+cover: "/images/blog/update-1.jpg"
+published: true
+---
+
+Yazının içeriği buradan itibaren **Markdown** olarak yazılır...`;
+
+const steps = [
+  {
+    icon: 'github',
+    title: '1. Depoda Yetkili Ol',
+    body: 'Blog yazısı yayınlayabilmek için GitHub deposuna collaborator (katkıcı) olarak eklenmiş olmalısın. Yetki, depo sahibi tarafından verilir.',
+  },
+  {
+    icon: 'book',
+    title: '2. Yeni Yazı Dosyası Oluştur',
+    body: 'Yeni bir yazı eklemek için `src/content/blog` klasörüne bir `.md` (veya `.mdx`) dosyası oluştur. Dosya adı yazının URL’si (slug) olur. Örn: `yeni-guncelleme.md` → /blog/yeni-guncelleme',
+  },
+  {
+    icon: 'general',
+    title: '3. Frontmatter’ı Doldur',
+    body: 'Dosyanın en üstüne aşağıdaki frontmatter bloğunu ekle. Tüm alanlar doğrulanır; eksik/hatalı alan derlemeyi durdurur.',
+  },
+  {
+    icon: 'arrow-right',
+    title: '4. Commit & Push',
+    body: 'Değişikliği commit edip ana dala (main) push ettiğinde GitHub Actions otomatik olarak siteyi yeniden derler ve GitHub Pages’e yayınlar.',
+  },
+];
+---
+
+<Layout
+  title="Admin Rehberi"
+  description="Hearts Of Steel I sitesine blog yazısı ekleme rehberi. GitHub collaborator tabanlı, statik yayınlama sistemi."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Yetkili Dökümantasyonu</span>
+      <h1 class="reveal">Admin Rehberi</h1>
+      <p class="reveal text-dim">
+        Bu site GitHub Pages üzerinde tamamen statik çalışır. Gerçek bir admin
+        paneli yoktur; blog yazıları GitHub üzerinden yayınlanır.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container guide-layout">
+      <!-- Bilgi notu -->
+      <div class="info-note reveal">
+        <Icon name="shield" size={22} />
+        <div>
+          <strong>Nasıl Çalışır?</strong>
+          <p class="text-dim">
+            Bu sayfa bir güvenlik sağlamaz — yalnızca bir rehberdir. Yetkilendirme
+            tamamen GitHub deposundaki collaborator izinleriyle yönetilir. Yalnızca
+            depoya yazma yetkisi olan kişiler içerik ekleyebilir.
+          </p>
+        </div>
+      </div>
+
+      <!-- Adımlar -->
+      <div class="guide-steps">
+        {
+          steps.map((s) => (
+            <article class="guide-step reveal">
+              <div class="gs-icon"><Icon name={s.icon} size={22} /></div>
+              <div>
+                <h2 set:html={s.title} />
+                <p class="text-dim" set:html={s.body.replace(/`([^`]+)`/g, '<code>$1</code>')} />
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- Frontmatter örneği -->
+      <div class="code-block reveal">
+        <div class="code-head">
+          <span>src/content/blog/yeni-yazi.md</span>
+          <button id="copyFm" type="button" data-code={frontmatterExample}>Kopyala</button>
+        </div>
+        <pre><code>{frontmatterExample}</code></pre>
+      </div>
+
+      <!-- Alan açıklamaları -->
+      <div class="fields reveal">
+        <h2>Frontmatter Alanları</h2>
+        <ul class="field-list">
+          <li><code>title</code> — Yazı başlığı (zorunlu)</li>
+          <li><code>description</code> — Kısa açıklama; kartlarda ve SEO’da kullanılır (zorunlu)</li>
+          <li><code>date</code> — Yayın tarihi, <code>YYYY-MM-DD</code> formatında (zorunlu)</li>
+          <li><code>author</code> — Yazar adı (zorunlu)</li>
+          <li><code>category</code> — Şu değerlerden biri: Duyurular, Güncellemeler, Rehberler, Savaş Raporları, Etkinlikler (zorunlu)</li>
+          <li><code>cover</code> — Kapak görseli yolu (opsiyonel; yoksa şık fallback gösterilir)</li>
+          <li><code>published</code> — <code>true</code> ise yayınlanır, <code>false</code> ise sitede görünmez</li>
+        </ul>
+      </div>
+
+      <!-- Önemli notlar -->
+      <div class="callout reveal">
+        <Icon name="general" size={20} />
+        <p>
+          <strong>published: false</strong> olan yazılar listelenmez ve sayfası
+          oluşturulmaz — taslakları güvenle saklayabilirsin. Yayınlamaya hazır
+          olduğunda <code>published: true</code> yap ve push et.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 58ch;
+    margin-inline: auto;
+  }
+
+  .guide-layout {
+    max-width: 820px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-note,
+  .callout {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    background: rgba(212, 175, 55, 0.05);
+  }
+  .info-note :global(svg),
+  .callout :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+  }
+  .info-note strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.5px;
+  }
+  .info-note p,
+  .callout p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .guide-step {
+    display: flex;
+    gap: 1rem;
+    padding: 1.4rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+  }
+  .gs-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+    color: var(--c-gold);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+  .guide-step h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+  .guide-step p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .guide-step :global(code),
+  .fields :global(code),
+  .callout :global(code) {
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    color: var(--c-gold-soft);
+  }
+
+  .code-block {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--c-navy-900);
+  }
+  .code-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--c-border);
+    background: var(--surface-2);
+    font-size: 0.82rem;
+    color: var(--c-text-dim);
+    font-family: ui-monospace, monospace;
+  }
+  .code-head button {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    background: none;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: var(--radius);
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: background var(--t-fast);
+  }
+  .code-head button:hover {
+    background: rgba(212, 175, 55, 0.1);
+  }
+  .code-block pre {
+    margin: 0;
+    padding: 1.25rem;
+    overflow-x: auto;
+  }
+  .code-block code {
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--c-text);
+    white-space: pre;
+  }
+
+  .fields h2 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .field-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .field-list li {
+    font-size: 0.92rem;
+    color: var(--c-text-dim);
+    padding-left: 1rem;
+    border-left: 2px solid var(--c-line);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('copyFm');
+  btn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(btn.getAttribute('data-code') || '');
+      const prev = btn.textContent;
+      btn.textContent = 'Kopyalandı ✓';
+      setTimeout(() => (btn.textContent = prev), 1800);
+    } catch {}
+  });
+</script>

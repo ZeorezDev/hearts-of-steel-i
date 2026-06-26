@@ -1,0 +1,339 @@
+---
+/**
+ * Blog Detay Sayfası `/blog/[slug]`
+ * Tek bir blog yazısını güzel tipografiyle gösterir.
+ * Başlık, meta bilgiler, kapak, içerik, önceki/sonraki yazı ve Discord butonu.
+ */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { siteConfig } from '../../data/siteConfig';
+
+// Statik yolları üret — sadece yayınlanmış yazılar için sayfa oluşturulur.
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => data.published === true)).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  );
+
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      // Liste yeni→eski sıralı: bir sonraki (daha yeni) ve önceki (daha eski)
+      newer: posts[i - 1] ?? null,
+      older: posts[i + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  newer: CollectionEntry<'blog'> | null;
+  older: CollectionEntry<'blog'> | null;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await post.render();
+const { title, description, date, author, category, cover } = post.data;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const blogPath = (slug: string) => `${base}/blog/${slug}`;
+const coverSrc = cover ? `${base}${cover}` : null;
+
+const formattedDate = new Intl.DateTimeFormat('tr-TR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(date);
+
+// Okuma süresi tahmini (~200 kelime/dakika)
+const words = post.body.split(/\s+/).filter(Boolean).length;
+const readingMinutes = Math.max(1, Math.round(words / 200));
+---
+
+<Layout title={title} description={description} image={cover} type="article">
+  <article>
+    <!-- Yazı başlığı -->
+    <header class="post-hero">
+      <div class="container post-hero-inner">
+        <a href={`${base}/blog`} class="back-link reveal">
+          <Icon name="arrow-left" size={16} /> Tüm Yazılar
+        </a>
+        <span class="post-category reveal">{category}</span>
+        <h1 class="reveal">{title}</h1>
+        <p class="post-lead reveal text-dim">{description}</p>
+        <div class="post-meta reveal">
+          <span><strong>{author}</strong></span>
+          <span class="sep">•</span>
+          <time datetime={date.toISOString()}>{formattedDate}</time>
+          <span class="sep">•</span>
+          <span class="read-time"><Icon name="clock" size={14} /> {readingMinutes} dk okuma</span>
+        </div>
+      </div>
+    </header>
+
+    {
+      coverSrc && (
+        <div class="container">
+          <img class="post-cover reveal" src={coverSrc} alt={title} width="1000" height="500" />
+        </div>
+      )
+    }
+
+    <!-- Markdown içerik -->
+    <div class="container">
+      <div class="post-body reveal">
+        <Content />
+      </div>
+
+      <!-- Discord'da tartış -->
+      <div class="post-discuss reveal">
+        <a href={siteConfig.discordUrl} class="btn btn--discord" target="_blank" rel="noopener">
+          <Icon name="arrow-right" size={16} /> Discord'da Tartış
+        </a>
+      </div>
+
+      <!-- Önceki / sonraki -->
+      <nav class="post-nav reveal" aria-label="Yazı gezinme">
+        {
+          older ? (
+            <a href={blogPath(older.slug)} class="post-nav-link prev">
+              <span class="nav-dir"><Icon name="arrow-left" size={14} /> Önceki Yazı</span>
+              <span class="nav-title">{older.data.title}</span>
+            </a>
+          ) : <span />
+        }
+        {
+          newer ? (
+            <a href={blogPath(newer.slug)} class="post-nav-link next">
+              <span class="nav-dir">Sonraki Yazı <Icon name="arrow-right" size={14} /></span>
+              <span class="nav-title">{newer.data.title}</span>
+            </a>
+          ) : <span />
+        }
+      </nav>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post-hero {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.07), transparent 60%);
+  }
+  .post-hero-inner {
+    max-width: 760px;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-text-dim);
+    transition: color var(--t-fast);
+  }
+  .back-link:hover {
+    color: var(--c-gold);
+  }
+  .post-category {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-family: var(--font-display);
+    font-size: 0.74rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #1a1407;
+    background: linear-gradient(180deg, var(--c-gold-soft), var(--c-amber));
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius);
+  }
+  .post-hero h1 {
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    margin-top: 1rem;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .post-lead {
+    margin-top: 1rem;
+    font-size: 1.08rem;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+    font-size: 0.88rem;
+    color: var(--c-text-dim);
+  }
+  .post-meta .sep {
+    opacity: 0.4;
+  }
+  .read-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .post-cover {
+    width: 100%;
+    max-width: 1000px;
+    margin: 2.5rem auto 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--c-line);
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+  }
+
+  /* ── Markdown tipografisi ── */
+  .post-body {
+    max-width: 760px;
+    margin: 3rem auto 0;
+    font-size: 1.06rem;
+    line-height: 1.8;
+    color: var(--c-text);
+  }
+  .post-body :global(h2) {
+    font-size: 1.7rem;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--c-line);
+    text-transform: uppercase;
+  }
+  .post-body :global(h3) {
+    font-size: 1.3rem;
+    margin: 2rem 0 0.75rem;
+    color: var(--c-gold-soft);
+  }
+  .post-body :global(p) {
+    margin-bottom: 1.25rem;
+  }
+  .post-body :global(a) {
+    color: var(--c-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 0 0 1.25rem 1.5rem;
+  }
+  .post-body :global(ul) {
+    list-style: disc;
+  }
+  .post-body :global(ol) {
+    list-style: decimal;
+  }
+  .post-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .post-body :global(strong) {
+    color: #fff;
+  }
+  .post-body :global(blockquote) {
+    margin: 1.5rem 0;
+    padding: 0.75rem 1.25rem;
+    border-left: 3px solid var(--c-gold);
+    background: rgba(212, 175, 55, 0.06);
+    color: var(--c-text-dim);
+    font-style: italic;
+  }
+  .post-body :global(code) {
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    font-size: 0.9em;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: var(--c-gold-soft);
+  }
+  .post-body :global(pre) {
+    background: var(--c-navy-900);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  .post-body :global(pre code) {
+    background: none;
+    padding: 0;
+    color: var(--c-text);
+  }
+  .post-body :global(hr) {
+    border: none;
+    border-top: 1px solid var(--c-border);
+    margin: 2rem 0;
+  }
+  .post-body :global(img) {
+    border-radius: var(--radius);
+    margin: 1.5rem 0;
+  }
+
+  .post-discuss {
+    max-width: 760px;
+    margin: 2.5rem auto 0;
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--c-border);
+  }
+
+  .post-nav {
+    max-width: 760px;
+    margin: 2rem auto 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    transition: transform var(--t-fast), border-color var(--t-fast);
+  }
+  .post-nav-link.next {
+    text-align: right;
+    align-items: flex-end;
+  }
+  .post-nav-link:hover {
+    transform: translateY(-3px);
+    border-color: var(--c-line);
+  }
+  .nav-dir {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+  }
+  .nav-title {
+    font-family: var(--font-display);
+    color: var(--c-text);
+    transition: color var(--t-fast);
+  }
+  .post-nav-link:hover .nav-title {
+    color: var(--c-gold);
+  }
+
+  @media (max-width: 600px) {
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+    .post-nav-link.next {
+      text-align: left;
+      align-items: flex-start;
+    }
+  }
+</style>

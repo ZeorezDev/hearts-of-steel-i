@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#142036"/>
+      <stop offset="1" stop-color="#14130f"/>
+    </linearGradient>
+    <radialGradient id="gl4" cx="28%" cy="20%" r="70%">
+      <stop offset="0" stop-color="#586577" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#586577" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="gr4" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg4)"/>
+  <rect width="800" height="450" fill="url(#gr4)"/>
+  <rect width="800" height="450" fill="url(#gl4)"/>
+  <rect x="24" y="24" width="752" height="402" fill="none" stroke="#586577" stroke-opacity="0.3" stroke-width="2"/>
+  <text x="56" y="80" font-family="Oswald, Arial, sans-serif" font-size="20" letter-spacing="4" fill="#586577">REHBER</text>
+  <text x="56" y="240" font-family="Oswald, Arial, sans-serif" font-size="58" font-weight="700" fill="#e7e3d8">Savaş & Diplomasi</text>
+  <text x="56" y="290" font-family="Oswald, Arial, sans-serif" font-size="22" letter-spacing="3" fill="#7a7568">HEARTS OF STEEL I</text>
+</svg>

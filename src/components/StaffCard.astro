@@ -1,0 +1,112 @@
+---
+/**
+ * Yetkili / kadro kartı.
+ * Avatar, isim, rol, açıklama ve Discord kullanıcı adını gösterir.
+ * Blog yazarı olan yetkililer ayrı bir rozetle işaretlenir.
+ */
+import type { StaffMember } from '../data/staff';
+
+interface Props {
+  member: StaffMember;
+}
+const { member } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const avatarSrc = `${base}${member.avatar}`;
+---
+
+<article class="staff-card reveal">
+  <div class="staff-top">
+    <img class="staff-avatar" src={avatarSrc} alt={member.name} loading="lazy" width="88" height="88" />
+    <div>
+      <h3>{member.name}</h3>
+      <span class="staff-role">{member.role}</span>
+    </div>
+  </div>
+
+  <p class="text-dim staff-desc">{member.description}</p>
+
+  <div class="staff-footer">
+    <span class="staff-discord">
+      <span class="discord-dot"></span>{member.discord}
+    </span>
+    {member.isBlogAuthor && <span class="staff-badge">Blog Yazarı</span>}
+  </div>
+</article>
+
+<style>
+  .staff-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    transition: transform var(--t), border-color var(--t), box-shadow var(--t);
+  }
+  .staff-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c-line);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+  }
+  .staff-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .staff-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--c-line);
+    background: var(--c-navy-800);
+  }
+  .staff-card h3 {
+    font-size: 1.15rem;
+  }
+  .staff-role {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--c-gold);
+  }
+  .staff-desc {
+    font-size: 0.9rem;
+    flex: 1;
+  }
+  .staff-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--c-border);
+  }
+  .staff-discord {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    color: var(--c-text-dim);
+  }
+  .discord-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5865f2;
+    box-shadow: 0 0 8px #5865f2;
+  }
+  .staff-badge {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(212, 175, 55, 0.08);
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+  }
+</style>

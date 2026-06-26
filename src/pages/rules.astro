@@ -1,0 +1,199 @@
+---
+/**
+ * Kurallar `/rules`
+ * Kurallar `src/data/rules.ts` dosyasından gelir ve bölümler hâlinde listelenir.
+ */
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import DiscordCTA from '../components/DiscordCTA.astro';
+import { rules } from '../data/rules';
+---
+
+<Layout
+  title="Kurallar"
+  description="Hearts Of Steel I sunucu kuralları: genel kurallar, rolplay, savaş, diplomasi, Towny ve yasaklı davranışlar."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Cephe Yönetmeliği</span>
+      <h1 class="reveal">Kurallar</h1>
+      <p class="reveal text-dim">
+        Adil, düzenli ve sürükleyici bir deneyim için tüm oyuncuların uyması
+        gereken kurallar. Sahaya çıkmadan önce mutlaka oku.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container rules-layout">
+      <!-- İçindekiler -->
+      <aside class="rules-toc reveal">
+        <span class="toc-title">Bölümler</span>
+        <ul>
+          {rules.map((r, i) => (
+            <li><a href={`#rule-${i}`}>{r.title}</a></li>
+          ))}
+        </ul>
+      </aside>
+
+      <!-- Kural bölümleri -->
+      <div class="rules-sections">
+        {
+          rules.map((section, i) => (
+            <article class="rule-block reveal" id={`rule-${i}`}>
+              <header class="rule-head">
+                <div class="rule-icon"><Icon name={section.icon} size={24} /></div>
+                <div>
+                  <h2>{section.title}</h2>
+                  {section.intro && <p class="text-dim">{section.intro}</p>}
+                </div>
+              </header>
+              <ol class="rule-list">
+                {section.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ol>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <DiscordCTA
+    title="Bir İhlal mi Gördün?"
+    text="Kural ihlallerini ve şikâyetlerini Discord üzerinden yetkili ekibe bildir."
+  />
+</Layout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(179,56,45,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 56ch;
+    margin-inline: auto;
+  }
+
+  .rules-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .rules-toc {
+    position: sticky;
+    top: 90px;
+    padding: 1.25rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+  }
+  .toc-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    margin-bottom: 0.85rem;
+  }
+  .rules-toc ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .rules-toc a {
+    font-size: 0.88rem;
+    color: var(--c-text-dim);
+    transition: color var(--t-fast), padding-left var(--t-fast);
+  }
+  .rules-toc a:hover {
+    color: var(--c-gold);
+    padding-left: 4px;
+  }
+
+  .rules-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .rule-block {
+    scroll-margin-top: 90px;
+    padding: 1.75rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+  }
+  .rule-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.1rem;
+    margin-bottom: 1.1rem;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .rule-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+    color: var(--c-gold);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+  .rule-head h2 {
+    font-size: 1.35rem;
+  }
+  .rule-head p {
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+  }
+  .rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    counter-reset: rule;
+    list-style: none;
+    padding: 0;
+  }
+  .rule-list li {
+    position: relative;
+    padding-left: 2.4rem;
+    color: var(--c-text);
+    line-height: 1.6;
+  }
+  .rule-list li::before {
+    counter-increment: rule;
+    content: counter(rule, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--c-gold);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: var(--radius);
+    padding: 0.05rem 0.4rem;
+  }
+
+  @media (max-width: 820px) {
+    .rules-layout {
+      grid-template-columns: 1fr;
+    }
+    .rules-toc {
+      position: static;
+    }
+  }
+</style>

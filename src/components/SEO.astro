@@ -1,0 +1,52 @@
+---
+/**
+ * SEO bileşeni — her sayfanın <head> kısmına meta etiketlerini ekler.
+ * title, description ve opsiyonel Open Graph görselini yönetir.
+ */
+import { siteConfig } from '../data/siteConfig';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** OG görseli (public/ köküne göreli). Verilmezse varsayılan kullanılır. */
+  image?: string;
+  /** Sayfa türü (article = blog yazısı) */
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  image = siteConfig.ogImage,
+  type = 'website',
+} = Astro.props;
+
+// Tam başlık: "Sayfa — Site Adı" (ana sayfada sadece site adı)
+const fullTitle =
+  title === siteConfig.siteName ? title : `${title} — ${siteConfig.siteName}`;
+
+// Astro.site + base ile mutlak URL üret (canonical & OG için)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(import.meta.env.BASE_URL + image.replace(/^\//, ''), Astro.site);
+---
+
+<!-- Temel meta -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<meta name="theme-color" content="#0a0f1a" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:site_name" content={siteConfig.siteName} />
+<meta property="og:locale" content="tr_TR" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />

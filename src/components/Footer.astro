@@ -1,0 +1,196 @@
+---
+/**
+ * Site alt bilgisi (Footer).
+ * Kısa açıklama, hızlı menü, Discord butonu, sunucu IP'si ve sosyal linkler.
+ */
+import { siteConfig } from '../data/siteConfig';
+import SocialIcon from './SocialIcon.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (p: string) => `${base}${p}` || '/';
+const year = new Date().getFullYear();
+
+const links = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Sunucu', href: '/server' },
+  { label: 'Nasıl Katılırım', href: '/join' },
+  { label: 'Kurallar', href: '/rules' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Kadro', href: '/staff' },
+  { label: 'Admin Rehberi', href: '/admin-guide' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <span class="brand-mark">HoS<span>I</span></span>
+      <p class="footer-desc">{siteConfig.description}</p>
+      <a
+        href={siteConfig.discordUrl}
+        class="btn btn--discord"
+        target="_blank"
+        rel="noopener"
+      >
+        Discord'a Katıl
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Menü</h4>
+      <ul>
+        {links.map((l) => <li><a href={path(l.href)}>{l.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Sunucu Bilgisi</h4>
+      <ul class="footer-info">
+        <li><span>IP</span><code>{siteConfig.serverIp}</code></li>
+        <li><span>Sürüm</span><code>Minecraft {siteConfig.minecraftVersion}</code></li>
+        <li><span>Altyapı</span><code>{siteConfig.serverSoftware}</code></li>
+      </ul>
+      <div class="footer-socials">
+        {
+          siteConfig.socials.map((s) => (
+            <a
+              href={s.url}
+              class="social-btn"
+              aria-label={s.label}
+              target="_blank"
+              rel="noopener"
+            >
+              <SocialIcon name={s.icon} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span>© {year} {siteConfig.siteName} — Resmi web sitesi</span>
+      <span class="footer-note">
+        Minecraft {siteConfig.minecraftVersion} · {siteConfig.serverSoftware} · Towny
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--c-line);
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.35));
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.2fr;
+    gap: 2.5rem;
+    padding-block: 3.5rem 2.5rem;
+  }
+  .brand-mark {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #1a1407;
+    background: linear-gradient(180deg, var(--c-gold-soft), var(--c-amber));
+    padding: 0.3rem 0.55rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+  }
+  .brand-mark span {
+    opacity: 0.7;
+    margin-left: 2px;
+  }
+  .footer-desc {
+    color: var(--c-text-dim);
+    font-size: 0.92rem;
+    max-width: 38ch;
+    margin-bottom: 1.25rem;
+  }
+  .footer-col h4 {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    margin-bottom: 1rem;
+  }
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .footer-col a {
+    color: var(--c-text-dim);
+    font-size: 0.92rem;
+    transition: color var(--t-fast), padding-left var(--t-fast);
+  }
+  .footer-col a:hover {
+    color: var(--c-gold);
+    padding-left: 4px;
+  }
+  .footer-info li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.88rem;
+  }
+  .footer-info span {
+    color: var(--c-text-faint);
+    text-transform: uppercase;
+    font-size: 0.74rem;
+    letter-spacing: 1px;
+  }
+  .footer-info code {
+    color: var(--c-text);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--c-border);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .social-btn {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    color: var(--c-text-dim);
+    transition: all var(--t-fast);
+  }
+  .social-btn:hover {
+    color: var(--c-gold);
+    border-color: var(--c-gold);
+    transform: translateY(-2px);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--c-border);
+  }
+  .footer-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-block: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--c-text-faint);
+  }
+
+  @media (max-width: 820px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

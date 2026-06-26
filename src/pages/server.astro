@@ -1,0 +1,157 @@
+---
+/**
+ * Sunucu Tanıtımı `/server`
+ * Sunucunun tüm sistemlerini bölüm bölüm tanıtan içerik sayfası.
+ */
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import DiscordCTA from '../components/DiscordCTA.astro';
+import Icon from '../components/Icon.astro';
+
+// Her bölüm: ikon + başlık + paragraf(lar)
+const sections = [
+  {
+    icon: 'shield',
+    title: 'Sunucu Hakkında',
+    body: 'Hearts Of Steel I, 2. Dünya Savaşı atmosferini Minecraft’a taşıyan modlu bir Towny sunucusudur. Amacımız; salt çatışmanın değil, diplomasi, ekonomi ve hikâyenin de belirleyici olduğu, derinlikli ve adil bir savaş deneyimi sunmaktır.',
+  },
+  {
+    icon: 'mod',
+    title: 'Özellikler',
+    body: '50’den fazla özenle seçilmiş, birbiriyle uyumlu mod; tank, uçak ve tarihsel silahlar; gelişmiş Towny ülke sistemi; diplomasi ve ittifak mekanikleri; üretim ve ekonomi dengesi. Her sistem, sürükleyici bir deneyim için bir araya getirildi.',
+  },
+  {
+    icon: 'map',
+    title: '1936 Tarihsel Dünya Düzeni',
+    body: 'Sezon, savaşın eşiğindeki 1936 Avrupa’sı üzerine kuruludur. Stratejik geçitler, liman şehirleri ve kaynak havzalarıyla harita, gerçek tarihi referans alır. Başlangıç çizgisi senin; gerisini sen yazacaksın.',
+  },
+  {
+    icon: 'town',
+    title: 'Towny ve Ülke Sistemi',
+    body: 'Şehrini kur, bölgelerini genişlet ve birden fazla şehri birleştirerek ulusunu ilan et. Vergi topla, izinleri yönet ve topraklarını koru. Güçlü bir ulus, sağlam bir yönetimle başlar.',
+  },
+  {
+    icon: 'diplomacy',
+    title: 'Diplomasi ve İttifaklar',
+    body: 'Saldırmazlık paktları imzala, ittifaklar kur, ticaret anlaşmaları yap. Sözler ve antlaşmalar bazen toplardan güçlüdür; itibar ise en değerli para birimidir.',
+  },
+  {
+    icon: 'war',
+    title: 'Savaş Sistemi',
+    body: 'Savaşlar resmî olarak ilan edilir; belirlenen saatler, kuşatma kuralları ve teslim mekanikleriyle düzenli işler. Sinsi saldırılar ve savaş dışı oyunculara yönelik eylemler kurallara aykırıdır.',
+  },
+  {
+    icon: 'tank',
+    title: 'Tarihsel Tanklar, Uçaklar ve Silahlar',
+    body: 'Dönemin zırhlı araçları, av uçakları ve piyade silahları cephede belirleyicidir. Üstünlük, teknolojiyi doğru zamanda ve doğru yerde kullanana aittir.',
+  },
+  {
+    icon: 'economy',
+    title: 'Ekonomi ve Üretim',
+    body: 'Kaynak topla, cephane üret, lojistiğini planla. Savaş yalnızca cephede değil, fabrikalarda ve ikmal hatlarında da kazanılır. Dengeli bir ekonomi, sürdürülebilir bir ordu demektir.',
+  },
+  {
+    icon: 'staff',
+    title: 'Güvenli ve Denetimli Ortam',
+    body: 'Aktif yetkili ekibimiz adil, tutarlı ve oyuncuya saygılı bir yönetim sağlar. Hile, taciz ve nefret söylemine yer yoktur; sorunlar hızla ve şeffaf biçimde çözülür.',
+  },
+];
+---
+
+<Layout
+  title="Sunucu Tanıtımı"
+  description="Hearts Of Steel I sunucusunun tüm sistemleri: Towny ülke yönetimi, diplomasi, savaş sistemi, tarihsel silahlar, ekonomi ve daha fazlası."
+>
+  <!-- Sayfa başlığı -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Sunucu Tanıtımı</span>
+      <h1 class="reveal">Cephenin Anatomisi</h1>
+      <p class="reveal text-dim">
+        1936 Avrupa’sının savaş makinesini oluşturan tüm sistemleri yakından tanı.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="srv-grid">
+        {
+          sections.map((s) => (
+            <article class="srv-card reveal">
+              <div class="srv-icon">
+                <Icon name={s.icon} size={26} />
+              </div>
+              <h2>{s.title}</h2>
+              <p class="text-dim">{s.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <DiscordCTA />
+</Layout>
+
+<style>
+  .page-hero {
+    position: relative;
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+
+  .srv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .srv-card {
+    padding: 1.75rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    transition: transform var(--t), border-color var(--t), box-shadow var(--t);
+  }
+  .srv-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c-line);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+  .srv-icon {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius);
+    color: var(--c-gold);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    margin-bottom: 1.1rem;
+  }
+  .srv-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+  .srv-card p {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 760px) {
+    .srv-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

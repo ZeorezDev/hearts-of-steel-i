@@ -1,0 +1,40 @@
+---
+/**
+ * Bölüm başlığı bileşeni.
+ * Üstte küçük "eyebrow" etiketi, altında büyük başlık ve opsiyonel açıklama.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  /** Hizalama */
+  align?: 'left' | 'center';
+}
+const { eyebrow, title, subtitle, align = 'left' } = Astro.props;
+---
+
+<div class:list={['section-title', `align-${align}`, 'reveal']}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h2>{title}</h2>
+  {subtitle && <p class="subtitle text-dim">{subtitle}</p>}
+</div>
+
+<style>
+  .section-title {
+    margin-bottom: 2.5rem;
+    max-width: 62ch;
+  }
+  .align-center {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .section-title h2 {
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+  }
+  .subtitle {
+    margin-top: 0.85rem;
+    font-size: 1.02rem;
+  }
+</style>
