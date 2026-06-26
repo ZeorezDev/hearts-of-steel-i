@@ -62,7 +62,8 @@ export const siteConfig: SiteConfig = {
   socials: [
     { label: 'Discord', url: 'https://discord.gg/your-invite', icon: 'discord' },
     { label: 'YouTube', url: 'https://www.youtube.com/@heartsofsteel-1/featured', icon: 'youtube' },
-    { label: 'Instagram', url: '#', icon: 'instagram' },
+    { label: 'Instagram', url: 'https://www.instagram.com/hearts_ofsteel/', icon: 'instagram' },
+    { label: 'X (Twitter)', url: 'https://x.com/Zeorez3132', icon: 'twitter' },
     { label: 'TikTok', url: '#', icon: 'tiktok' },
   ],
 };
