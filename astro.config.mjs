@@ -21,7 +21,7 @@ import sitemap from '@astrojs/sitemap';
  */
 
 // GitHub kullanıcı adınız (veya kuruluş adınız)
-const GITHUB_USER = 'Zeorez';
+const GITHUB_USER = 'ZeorezDev';
 
 // GitHub repository adınız. Custom domain kullanıyorsanız boş ('') bırakın.
 const REPO_NAME = 'hearts-of-steel-i';
