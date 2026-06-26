@@ -28,17 +28,6 @@ export const rules: RuleSection[] = [
     ],
   },
   {
-    title: 'Rolplay Kuralları',
-    icon: 'roleplay',
-    intro: 'Sunucunun atmosferini koruyan rol yapma kuralları.',
-    items: [
-      'Karakterinin tutarlılığını koru; rol dışı (OOC) davranışları sohbette belirt.',
-      'Diğer oyuncuların hikâyelerine ve rollerine zorla müdahale etme.',
-      'Gerçekçi olmayan, atmosferi bozan davranışlardan kaçın.',
-      'Tarihsel atmosfere uygun isim ve ülke adları tercih et.',
-    ],
-  },
-  {
     title: 'Savaş Kuralları',
     icon: 'war',
     intro: 'Çatışma ve cephe yönetimi sırasında uyulması gereken kurallar.',
