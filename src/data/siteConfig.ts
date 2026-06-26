@@ -61,7 +61,7 @@ export const siteConfig: SiteConfig = {
   // Sosyal medya bağlantıları — linkiniz olmayanları "#" olarak bırakın
   socials: [
     { label: 'Discord', url: 'https://discord.gg/your-invite', icon: 'discord' },
-    { label: 'YouTube', url: '#', icon: 'youtube' },
+    { label: 'YouTube', url: 'https://www.youtube.com/@heartsofsteel-1/featured', icon: 'youtube' },
     { label: 'Instagram', url: '#', icon: 'instagram' },
     { label: 'TikTok', url: '#', icon: 'tiktok' },
   ],
