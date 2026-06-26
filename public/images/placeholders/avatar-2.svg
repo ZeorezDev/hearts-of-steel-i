@@ -7,5 +7,5 @@
   </defs>
   <rect width="160" height="160" fill="url(#av2)"/>
   <circle cx="80" cy="80" r="58" fill="none" stroke="#d4af37" stroke-opacity="0.35" stroke-width="2"/>
-  <text x="80" y="98" font-family="Oswald, Arial, sans-serif" font-size="48" font-weight="700" fill="#d4af37" text-anchor="middle">GK</text>
+  <text x="80" y="98" font-family="Oswald, Arial, sans-serif" font-size="44" font-weight="700" fill="#d4af37" text-anchor="middle">DR</text>
 </svg>

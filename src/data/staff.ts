@@ -23,48 +23,48 @@ export interface StaffMember {
 
 export const staff: StaffMember[] = [
   {
-    name: 'Komutan',
+    name: 'Zeorez',
     role: 'Kurucu',
     description:
       'Sunucunun vizyonunu belirler, genel yönetimi ve teknik altyapıyı üstlenir.',
     avatar: '/images/placeholders/avatar-1.svg',
-    discord: 'komutan',
+    discord: 'zeorez',
     isBlogAuthor: true,
   },
   {
-    name: 'Genelkurmay',
-    role: 'Yönetici',
+    name: 'Dram',
+    role: 'Kurucu',
     description:
-      'Sunucu içi düzen, etkinlik planlaması ve ekip koordinasyonundan sorumludur.',
+      'Sunucunun kuruluşunda yer alır; yönetim, planlama ve topluluk kararlarında söz sahibidir.',
     avatar: '/images/placeholders/avatar-2.svg',
-    discord: 'genelkurmay',
+    discord: 'dram',
     isBlogAuthor: true,
   },
   {
-    name: 'Diplomat',
-    role: 'Diplomasi Sorumlusu',
+    name: 'Okaci',
+    role: 'Admin',
     description:
-      'İttifaklar, antlaşmalar ve uluslararası anlaşmazlıkların çözümünde görev alır.',
+      'Sunucu içi düzen, etkinlik yönetimi ve yetkili koordinasyonundan sorumludur.',
     avatar: '/images/placeholders/avatar-3.svg',
-    discord: 'diplomat',
-    isBlogAuthor: false,
+    discord: 'okaci',
+    isBlogAuthor: true,
   },
   {
-    name: 'Saha Subayı',
+    name: 'Xwex',
     role: 'Moderatör',
     description:
       'Oyun içi kuralların uygulanması ve oyuncu desteğiyle ilgilenir.',
     avatar: '/images/placeholders/avatar-4.svg',
-    discord: 'sahasubayi',
+    discord: 'xwex',
     isBlogAuthor: false,
   },
   {
-    name: 'Mühendis',
-    role: 'Teknik Ekip',
+    name: 'Emre Guderian',
+    role: 'Moderatör',
     description:
-      'Mod paketi, sunucu performansı ve harita bakımından sorumludur.',
+      'Kural ihlallerini denetler, oyuncuların sorunlarını çözer ve düzeni korur.',
     avatar: '/images/placeholders/avatar-5.svg',
-    discord: 'muhendis',
-    isBlogAuthor: true,
+    discord: 'emreguderian',
+    isBlogAuthor: false,
   },
 ];
