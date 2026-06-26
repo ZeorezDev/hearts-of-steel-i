@@ -1,0 +1,253 @@
+---
+/**
+ * İşbirliği `/isbirligi`
+ * Sponsorluk, içerik üreticiliği ve topluluk işbirlikleri için kurumsal
+ * iletişim sayfası. İletişim e-postası siteConfig'ten gelir.
+ */
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { siteConfig } from '../data/siteConfig';
+
+const email = siteConfig.contactEmail;
+const mailto = `mailto:${email}?subject=${encodeURIComponent('İşbirliği Talebi — Hearts Of Steel I')}`;
+
+// İşbirliği yapılabilecek alanlar
+const areas = [
+  {
+    icon: 'youtube',
+    title: 'İçerik Üreticileri',
+    body: 'YouTuber, yayıncı ve içerik üreticileriyle uzun vadeli işbirliklerine açığız. Sunucu tanıtımı, özel etkinlikler ve ortak yayınlar için birlikte çalışabiliriz.',
+  },
+  {
+    icon: 'diplomacy',
+    title: 'Topluluklar ve Sunucular',
+    body: 'Benzer vizyona sahip topluluklar ve sunucularla ortak etkinlikler, karşılıklı tanıtım ve stratejik ortaklıklar geliştirebiliriz.',
+  },
+  {
+    icon: 'economy',
+    title: 'Sponsorluk ve Destek',
+    body: 'Markanızı tarihsel ve kurumsal bir oyun topluluğuyla buluşturmak isterseniz, sponsorluk ve destek modellerini birlikte değerlendirebiliriz.',
+  },
+  {
+    icon: 'staff',
+    title: 'Proje ve Hizmet Teklifleri',
+    body: 'Tasarım, geliştirme, eklenti veya organizasyon alanlarında bir teklifiniz varsa görüşmekten memnuniyet duyarız.',
+  },
+];
+---
+
+<Layout
+  title="İşbirliği"
+  description="Hearts Of Steel I ile işbirliği, sponsorluk ve ortaklık fırsatları. İçerik üreticileri, topluluklar ve markalar için kurumsal iletişim."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">İletişim & Ortaklık</span>
+      <h1 class="reveal">İşbirliği</h1>
+      <p class="reveal text-dim">
+        Hearts Of Steel I, doğru ortaklarla büyümeye inanır. Birlikte daha güçlü
+        bir topluluk kurmak için kapımız size açık.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container collab-layout">
+      <!-- Kurumsal giriş metni -->
+      <div class="collab-intro reveal">
+        <p>
+          <strong>Hearts Of Steel I</strong> olarak; içerik üreticileri, oyun
+          toplulukları, markalar ve bireysel emektarlarla kurulacak şeffaf,
+          karşılıklı fayda esaslı işbirliklerine büyük önem veriyoruz. Tarihsel
+          atmosferi, kurumsal yönetim anlayışı ve aktif oyuncu kitlesiyle,
+          ortaklarımıza nitelikli ve sürdürülebilir bir zemin sunmayı hedefliyoruz.
+        </p>
+        <p>
+          Bizimle bir projede yer almak, sunucumuzu tanıtmak, ortak bir etkinlik
+          düzenlemek veya bir sponsorluk teklifinde bulunmak isterseniz; ekibimiz
+          her türlü ciddi öneriyi titizlikle değerlendirmekten memnuniyet duyar.
+          Talebinizi olabildiğince açık biçimde ilettiğinizde, size en kısa sürede
+          ve kurumsal bir yaklaşımla geri dönüş sağlarız.
+        </p>
+      </div>
+
+      <!-- İşbirliği alanları -->
+      <div class="collab-areas">
+        {
+          areas.map((a) => (
+            <article class="collab-card reveal">
+              <div class="collab-icon"><Icon name={a.icon} size={24} /></div>
+              <div>
+                <h2>{a.title}</h2>
+                <p class="text-dim">{a.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- İletişim kutusu -->
+      <div class="collab-contact reveal">
+        <div class="contact-glow" aria-hidden="true"></div>
+        <span class="eyebrow">Bize Ulaşın</span>
+        <h2>İşbirliği Talebinizi İletin</h2>
+        <p class="text-dim">
+          İşbirliği, sponsorluk ve ortaklık talepleriniz için resmî e-posta
+          adresimiz üzerinden bize ulaşabilirsiniz. Lütfen mesajınızda
+          kendinizi/markanızı, teklifinizin kapsamını ve beklentilerinizi
+          özetlemeyi unutmayın.
+        </p>
+
+        <a href={mailto} class="contact-email">
+          <Icon name="arrow-right" size={18} />
+          <span>{email}</span>
+        </a>
+
+        <p class="contact-note">
+          Başvurularınız ekibimiz tarafından değerlendirilir; uygun bulunan
+          tekliflere en kısa sürede geri dönüş yapılır.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 56ch;
+    margin-inline: auto;
+  }
+
+  .collab-layout {
+    max-width: 880px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .collab-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--c-text);
+  }
+  .collab-intro strong {
+    color: #fff;
+  }
+
+  .collab-areas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .collab-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    transition: transform var(--t), border-color var(--t), box-shadow var(--t);
+  }
+  .collab-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c-line);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+  }
+  .collab-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+    color: var(--c-gold);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+  .collab-card h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+  .collab-card p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .collab-contact {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: clamp(2rem, 5vw, 3.25rem);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    background: var(--surface-2);
+  }
+  .contact-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.14), transparent 55%);
+    z-index: 0;
+  }
+  .collab-contact > * {
+    position: relative;
+    z-index: 1;
+  }
+  .collab-contact .eyebrow {
+    justify-content: center;
+  }
+  .collab-contact h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    text-transform: uppercase;
+    margin: 0.75rem 0 0.85rem;
+  }
+  .collab-contact > p {
+    max-width: 60ch;
+    margin-inline: auto;
+  }
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    letter-spacing: 0.5px;
+    color: #1a1407;
+    background: linear-gradient(180deg, var(--c-gold-soft), var(--c-amber));
+    padding: 0.85rem 1.6rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    transition: transform var(--t-fast), box-shadow var(--t-fast);
+  }
+  .contact-email:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(212, 175, 55, 0.35);
+  }
+  .contact-note {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--c-text-faint);
+  }
+
+  @media (max-width: 680px) {
+    .collab-areas {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

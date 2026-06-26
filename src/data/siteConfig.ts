@@ -21,6 +21,8 @@ export interface SiteConfig {
   shortName: string;
   description: string;
   discordUrl: string;
+  /** İşbirliği / iletişim e-posta adresi */
+  contactEmail: string;
   serverIp: string;
   minecraftVersion: string;
   /** Sunucu altyapısı (Mohist vb.) */
@@ -42,6 +44,9 @@ export const siteConfig: SiteConfig = {
 
   // ► Discord davet linkinizi buraya yapıştırın
   discordUrl: 'https://discord.gg/EM5KudZTTq',
+
+  // ► İşbirliği / iletişim e-posta adresi
+  contactEmail: 'hosresmi@hotmail.com',
 
   // ► Sunucu giriş adresiniz
   serverIp: 'unit-newspapers.gl.joinmc.link',
