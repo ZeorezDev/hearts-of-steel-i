@@ -41,6 +41,15 @@ export const staff: StaffMember[] = [
     isBlogAuthor: true,
   },
   {
+    name: 'ConqueroR',
+    role: 'Sunucu Yöneticisi',
+    description:
+      'Sunucunun günlük işleyişini yönetir; düzen, denetim ve oyuncu deneyiminin sürekliliğinden sorumludur.',
+    avatar: '/images/placeholders/avatar-6.svg',
+    discord: 'conqueror',
+    isBlogAuthor: true,
+  },
+  {
     name: 'Okaci',
     role: 'Admin',
     description:
