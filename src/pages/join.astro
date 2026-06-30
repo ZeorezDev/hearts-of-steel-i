@@ -12,8 +12,6 @@ import { siteConfig } from '../data/siteConfig';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (p: string) => `${base}${p}` || '/';
 
-const hasModpack = siteConfig.modpackUrl && siteConfig.modpackUrl !== '#';
-
 const steps = [
   {
     n: 1,
@@ -31,14 +29,10 @@ const steps = [
   },
   {
     n: 3,
-    title: 'Modpack’i İndir',
-    body: hasModpack
-      ? 'Resmi modpack’i indir ve bir launcher üzerinden içe aktar. Sürümün 1.20.1 olduğundan emin ol.'
-      : 'Modpack linki henüz yayınlanmadı. Yayınlandığında burada ve Discord’da paylaşılacak.',
+    title: 'Modpack’i İndir ve Kur',
+    body: 'Resmî modpack’i indir ve Forge 1.20.1 ile kur. Adım adım kurulum rehberi modpack sayfasında.',
     icon: 'download',
-    cta: hasModpack
-      ? { label: 'Modpack İndir', url: siteConfig.modpackUrl, external: true }
-      : { label: 'Yakında', url: '#', external: false },
+    cta: { label: 'Modpack Sayfası', url: path('/modpack'), external: false },
   },
   {
     n: 4,

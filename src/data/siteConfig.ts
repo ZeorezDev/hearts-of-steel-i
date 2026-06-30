@@ -27,6 +27,10 @@ export interface SiteConfig {
   minecraftVersion: string;
   /** Sunucu altyapısı (Mohist vb.) */
   serverSoftware: string;
+  /** Modpack adı (örn. "Dramland V02") */
+  modpackName: string;
+  /** Modpack için gereken mod yükleyici (örn. "Forge 1.20.1") */
+  modpackLoader: string;
   modpackUrl: string;
   /** Tanıtım videosu / fragman linki. Yoksa boş bırakın. */
   trailerUrl: string;
@@ -54,8 +58,17 @@ export const siteConfig: SiteConfig = {
   minecraftVersion: '1.20.1',
   serverSoftware: 'Mohist',
 
-  // ► Modpack indirme linki (henüz yoksa "#" bırakın)
-  modpackUrl: '#',
+  // ► Modpack bilgileri
+  modpackName: 'Dramland V02',
+  modpackLoader: 'Forge 1.20.1',
+
+  // ► Modpack indirme linki.
+  //    Dosya büyük (330 MB) olduğu için GitHub Releases'te barındırılır.
+  //    Aşağıdaki adımları izleyip zip'i Releases'e yükleyince bu link çalışır.
+  //    Dilersen Google Drive / MediaFire gibi başka bir DOĞRUDAN indirme
+  //    linkiyle de değiştirebilirsin.
+  modpackUrl:
+    'https://github.com/ZeorezDev/hearts-of-steel-i/releases/download/modpack-v02/Dramland-V02.zip',
 
   // ► Tanıtım videosu linki (henüz yoksa boş bırakın)
   trailerUrl: '',

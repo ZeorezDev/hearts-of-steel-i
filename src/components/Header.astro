@@ -16,6 +16,7 @@ const nav = [
   { label: 'Ana Sayfa', href: '/' },
   { label: 'Sunucu', href: '/server' },
   { label: 'Nasıl Katılırım', href: '/join' },
+  { label: 'Modpack', href: '/modpack' },
   { label: 'Kurallar', href: '/rules' },
   { label: 'Blog', href: '/blog' },
   { label: 'Kadro', href: '/staff' },
@@ -140,7 +141,7 @@ const isActive = (href: string) =>
   .nav-desktop {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1.05rem;
   }
   .nav-link {
     font-family: var(--font-display);
@@ -221,7 +222,7 @@ const isActive = (href: string) =>
     margin-top: 0.75rem;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1120px) {
     .nav-desktop {
       display: none;
     }

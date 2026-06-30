@@ -1,0 +1,320 @@
+---
+/**
+ * Modpack `/modpack`
+ * Modpack indirme butonu + Forge 1.20.1 kurulum rehberi.
+ * İndirme linki ve modpack bilgileri siteConfig'ten gelir.
+ */
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import DiscordCTA from '../components/DiscordCTA.astro';
+import { siteConfig } from '../data/siteConfig';
+
+const hasModpack = siteConfig.modpackUrl && siteConfig.modpackUrl !== '#';
+
+// Forge 1.20.1 kurulum adımları
+const steps = [
+  {
+    icon: 'download',
+    title: 'Modpack’i İndir',
+    body: 'Yukarıdaki indirme butonuna tıklayarak modpack arşivini (.zip) bilgisayarına indir. Dosya büyük olduğundan indirme biraz sürebilir.',
+  },
+  {
+    icon: 'shield',
+    title: 'Forge 1.20.1’i Kur',
+    body: 'minecraftforge.net adresinden Minecraft 1.20.1 için Forge yükleyicisini indir ve kur. Oyun başlatıcında (launcher) “forge 1.20.1” profili oluşur.',
+  },
+  {
+    icon: 'general',
+    title: 'Bir Launcher Hazırla',
+    body: 'CurseForge veya Prism Launcher gibi bir başlatıcı öneriyoruz. Yeni bir profil/instance oluştur ve sürüm olarak Minecraft 1.20.1 + Forge seç.',
+  },
+  {
+    icon: 'book',
+    title: 'Modpack’i İçe Aktar',
+    body: 'İndirdiğin .zip dosyasını launcher’a içe aktar (import) ya da arşivdeki “mods” klasörünü Forge 1.20.1 profilinin mods klasörüne kopyala.',
+  },
+  {
+    icon: 'economy',
+    title: 'RAM Ayarını Yap',
+    body: 'Launcher ayarlarından modpack’e en az 4 GB (önerilen 6–8 GB) RAM ayır. Düşük RAM takılma ve çökmelere yol açabilir.',
+  },
+  {
+    icon: 'flag',
+    title: 'Sunucuya Bağlan',
+    body: `Oyunu Forge 1.20.1 ile başlat, çoklu oyuncu menüsünden sunucu adresini (${siteConfig.serverIp}) ekle ve giriş yap.`,
+  },
+];
+---
+
+<Layout
+  title="Modpack"
+  description={`${siteConfig.modpackName} modpack indirme ve Forge ${siteConfig.minecraftVersion} kurulum rehberi. Hearts Of Steel I sunucusuna bağlanmak için adım adım kurulum.`}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Cephe Donanımı</span>
+      <h1 class="reveal">Modpack İndir</h1>
+      <p class="reveal text-dim">
+        Sunucuya bağlanmak için resmî modpack’i indir ve {siteConfig.modpackLoader}
+        ile kur. Aşağıdaki adımları takip etmen yeterli.
+      </p>
+    </div>
+  </section>
+
+  <!-- İndirme kutusu -->
+  <section class="section download-section">
+    <div class="container">
+      <div class="download-box reveal">
+        <div class="dl-glow" aria-hidden="true"></div>
+        <div class="dl-info">
+          <span class="dl-badge">{siteConfig.modpackLoader}</span>
+          <h2>{siteConfig.modpackName}</h2>
+          <p class="text-dim">
+            Minecraft {siteConfig.minecraftVersion} · {siteConfig.modpackLoader} ·
+            Resmî sunucu modpack’i
+          </p>
+        </div>
+        <div class="dl-action">
+          {
+            hasModpack ? (
+              <a href={siteConfig.modpackUrl} class="btn btn--gold dl-btn" download target="_blank" rel="noopener">
+                <Icon name="download" size={20} /> Modpack’i İndir
+              </a>
+            ) : (
+              <span class="btn btn--ghost dl-btn" aria-disabled="true">Yakında</span>
+            )
+          }
+          <span class="dl-hint">.zip · Forge 1.20.1</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kurulum adımları -->
+  <section class="section">
+    <div class="container">
+      <div class="steps-head reveal">
+        <span class="eyebrow">Kurulum</span>
+        <h2>Adım Adım Forge 1.20.1 Kurulumu</h2>
+      </div>
+      <div class="mp-steps">
+        {
+          steps.map((s, i) => (
+            <article class="mp-step reveal">
+              <div class="mp-num">{String(i + 1).padStart(2, '0')}</div>
+              <div class="mp-icon"><Icon name={s.icon} size={22} /></div>
+              <div>
+                <h3>{s.title}</h3>
+                <p class="text-dim">{s.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- Uyarı / ipucu -->
+      <div class="mp-callout reveal">
+        <Icon name="general" size={20} />
+        <p>
+          <strong>Sürüm uyumu önemli:</strong> Modpack yalnızca
+          <strong> Minecraft {siteConfig.minecraftVersion}</strong> ve
+          <strong> {siteConfig.modpackLoader}</strong> ile çalışır. Farklı sürümde
+          başlatırsan oyun açılmaz veya çöker. Sorun yaşarsan Discord’daki
+          <strong> #destek</strong> kanalından yardım iste.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <DiscordCTA
+    title="Kurulumda Takıldın mı?"
+    text="Modpack veya bağlantı sorunlarında Discord’daki destek ekibimiz yardımcı olur."
+  />
+</Layout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3rem, 8vw, 5rem) 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--c-border);
+    background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.08), transparent 60%);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .page-hero p {
+    margin-top: 0.85rem;
+    max-width: 56ch;
+    margin-inline: auto;
+  }
+
+  .download-section {
+    padding-bottom: 0;
+  }
+  .download-box {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    background: var(--surface-2);
+  }
+  .dl-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 0%, rgba(212,175,55,0.16), transparent 55%);
+    z-index: 0;
+  }
+  .dl-info,
+  .dl-action {
+    position: relative;
+    z-index: 1;
+  }
+  .dl-badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(212, 175, 55, 0.08);
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    margin-bottom: 0.75rem;
+  }
+  .dl-info h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    text-transform: uppercase;
+  }
+  .dl-info p {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .dl-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .dl-btn {
+    font-size: 1.05rem;
+    padding: 1rem 2rem;
+  }
+  .dl-hint {
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+  }
+
+  .steps-head {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .steps-head .eyebrow {
+    justify-content: center;
+  }
+  .steps-head h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    text-transform: uppercase;
+    margin-top: 0.6rem;
+  }
+
+  .mp-steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .mp-step {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: start;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    transition: transform var(--t-fast), border-color var(--t-fast);
+  }
+  .mp-step:hover {
+    transform: translateY(-3px);
+    border-color: var(--c-line);
+  }
+  .mp-num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: rgba(212, 175, 55, 0.35);
+    line-height: 1;
+  }
+  .mp-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius);
+    color: var(--c-gold);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+  .mp-step h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+  }
+  .mp-step p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .mp-callout {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    background: rgba(212, 175, 55, 0.05);
+  }
+  .mp-callout :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+  }
+  .mp-callout p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .mp-callout strong {
+    color: #fff;
+  }
+
+  @media (max-width: 720px) {
+    .mp-steps {
+      grid-template-columns: 1fr;
+    }
+    .mp-num {
+      display: none;
+    }
+    .mp-step {
+      grid-template-columns: auto 1fr;
+    }
+    .download-box {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .dl-action {
+      align-items: flex-start;
+      width: 100%;
+    }
+    .dl-btn {
+      width: 100%;
+    }
+  }
+</style>
