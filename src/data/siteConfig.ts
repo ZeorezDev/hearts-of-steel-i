@@ -68,7 +68,7 @@ export const siteConfig: SiteConfig = {
   //    Dilersen Google Drive / MediaFire gibi başka bir DOĞRUDAN indirme
   //    linkiyle de değiştirebilirsin.
   modpackUrl:
-    'https://github.com/ZeorezDev/hearts-of-steel-i/releases/download/modpack-v02/Dramland-V02.zip',
+    'https://github.com/ZeorezDev/hearts-of-steel-i/releases/download/modpackv3/Hos1modpack.zip',
 
   // ► Tanıtım videosu linki (henüz yoksa boş bırakın)
   trailerUrl: '',
