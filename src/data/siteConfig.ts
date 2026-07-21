@@ -68,7 +68,7 @@ export const siteConfig: SiteConfig = {
   //    Dilersen Google Drive / MediaFire gibi başka bir DOĞRUDAN indirme
   //    linkiyle de değiştirebilirsin.
   modpackUrl:
-    'https://github.com/ZeorezDev/hearts-of-steel-i/releases/download/modpackv3/Hos1modpack.zip',
+    'https://github.com/ZeorezDev/hearts-of-steel-i/releases/download/modpackv4/Hos.1.v.2.zip',
 
   // ► Tanıtım videosu linki (henüz yoksa boş bırakın)
   trailerUrl: '',
