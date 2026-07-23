@@ -31,49 +31,4 @@ export const staff: StaffMember[] = [
     discord: 'zeorez',
     isBlogAuthor: true,
   },
-  {
-    name: 'Dram',
-    role: 'Kurucu',
-    description:
-      'Sunucunun kuruluşunda yer alır; yönetim, planlama ve topluluk kararlarında söz sahibidir.',
-    avatar: '/images/placeholders/avatar-2.svg',
-    discord: 'dram',
-    isBlogAuthor: true,
-  },
-  {
-    name: 'ConqueroR',
-    role: 'Sunucu Yöneticisi',
-    description:
-      'Sunucunun günlük işleyişini yönetir; düzen, denetim ve oyuncu deneyiminin sürekliliğinden sorumludur.',
-    avatar: '/images/placeholders/avatar-6.svg',
-    discord: 'conqueror',
-    isBlogAuthor: true,
-  },
-  {
-    name: 'Okaci',
-    role: 'Admin',
-    description:
-      'Sunucu içi düzen, etkinlik yönetimi ve yetkili koordinasyonundan sorumludur.',
-    avatar: '/images/placeholders/avatar-3.svg',
-    discord: 'okaci',
-    isBlogAuthor: true,
-  },
-  {
-    name: 'Xwex',
-    role: 'Moderatör',
-    description:
-      'Oyun içi kuralların uygulanması ve oyuncu desteğiyle ilgilenir.',
-    avatar: '/images/placeholders/avatar-4.svg',
-    discord: 'xwex',
-    isBlogAuthor: false,
-  },
-  {
-    name: 'Emre Guderian',
-    role: 'Moderatör',
-    description:
-      'Kural ihlallerini denetler, oyuncuların sorunlarını çözer ve düzeni korur.',
-    avatar: '/images/placeholders/avatar-5.svg',
-    discord: 'emreguderian',
-    isBlogAuthor: false,
-  },
 ];
