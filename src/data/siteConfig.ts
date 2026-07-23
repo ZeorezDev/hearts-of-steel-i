@@ -53,7 +53,7 @@ export const siteConfig: SiteConfig = {
   contactEmail: 'hosresmi@hotmail.com',
 
   // ► Sunucu giriş adresiniz
-  serverIp: 'unit-newspapers.gl.joinmc.link',
+  serverIp: '193.164.7.186',
 
   minecraftVersion: '1.20.1',
   serverSoftware: 'Mohist',
