@@ -24,6 +24,8 @@ export interface SiteConfig {
   /** İşbirliği / iletişim e-posta adresi */
   contactEmail: string;
   serverIp: string;
+  /** Canlı harita (Dynmap) linki. Menüde "Canlı Harita" sekmesi olarak açılır. */
+  liveMapUrl: string;
   minecraftVersion: string;
   /** Sunucu altyapısı (Mohist vb.) */
   serverSoftware: string;
@@ -54,6 +56,9 @@ export const siteConfig: SiteConfig = {
 
   // ► Sunucu giriş adresiniz
   serverIp: '193.164.7.186',
+
+  // ► Canlı harita (Dynmap) linki
+  liveMapUrl: 'http://193.164.7.186:8123/#',
 
   minecraftVersion: '1.20.1',
   serverSoftware: 'Mohist',
